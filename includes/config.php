@@ -7,7 +7,7 @@ define('DB_NAME', 'rajaampat_trip');
 
 // Site Configuration
 define('SITE_NAME', 'Raja Ampat Trip');
-define('SITE_URL', 'http://localhost/trip_rajaampat');
+define('SITE_URL', 'http://localhost/trip_rajaampat/public');
 define('UPLOAD_DIR', __DIR__ . '/../public/uploads/');
 define('UPLOAD_URL', SITE_URL . '/public/uploads/');
 

@@ -31,10 +31,11 @@ $itinerary = explode('|', $package['itinerary']);
             <a href="index.php" class="navbar-brand"><?= SITE_NAME ?></a>
             <ul class="navbar-menu">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="index.php#paket">Paket Wisata</a></li>
+                <li><a href="#paket">Paket Wisata</a></li>
+                <li><a href="#galeri"> User</a></li>
                 <?php if (is_logged_in()): ?>
                     <li><a href="payment-status.php">Pesanan Saya</a></li>
-                    <li><a href="logout.php">Logout (<?= get_user_name() ?>)</a></li>
+                    <li><a href="logout.php">Logout</a></li>
                 <?php else: ?>
                     <li><a href="login.php">Login</a></li>
                     <li><a href="register.php">Register</a></li>

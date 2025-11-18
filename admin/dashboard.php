@@ -27,6 +27,10 @@ $stats['pending'] = $stmt->fetch()['total'];
 $stmt = $pdo->query("SELECT SUM(jumlah) as total FROM pembayaran WHERE status = 'valid'");
 $stats['revenue'] = $stmt->fetch()['total'] ?? 0;
 
+// Total users
+$stmt = $pdo->query("SELECT COUNT(*) as total FROM users WHERE role = 'user'");
+$stats['users'] = $stmt->fetch()['total'];
+
 // Recent orders
 $stmt = $pdo->query("
     SELECT p.*, pw.nama_paket, u.nama as user_nama, pm.status as payment_status
@@ -38,6 +42,16 @@ $stmt = $pdo->query("
     LIMIT 10
 ");
 $recent_orders = $stmt->fetchAll();
+
+// Recent registered users
+$stmt = $pdo->query("
+    SELECT id, nama, email, no_hp, created_at
+    FROM users 
+    WHERE role = 'user'
+    ORDER BY created_at DESC
+    LIMIT 10
+");
+$recent_users = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -55,6 +69,7 @@ $recent_orders = $stmt->fetchAll();
                 <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="paket-list.php">Paket Wisata</a></li>
                 <li><a href="galeri-list.php">Galeri</a></li>
+                <li><a href="user-list.php">User</a></li>
                 <li><a href="pembayaran-list.php">Pembayaran</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
@@ -113,6 +128,14 @@ $recent_orders = $stmt->fetchAll();
                         <p style="color: var(--gray);">Total Pendapatan</p>
                     </div>
                 </div>
+                
+                <div class="card">
+                    <div class="card-body" style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">👥</div>
+                        <h3 style="font-size: 2.5rem; color: #06b6d4; margin-bottom: 0.5rem;"><?= $stats['users'] ?></h3>
+                        <p style="color: var(--gray);">Total User Terdaftar</p>
+                    </div>
+                </div>
             </div>
             
             <!-- Recent Orders -->
@@ -160,6 +183,56 @@ $recent_orders = $stmt->fetchAll();
                                                class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
                                                 Verifikasi
                                             </a>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
+            </div>
+            
+            <!-- Recent Users -->
+            <div class="detail-info" style="margin-top: 3rem;">
+                <h3 style="color: var(--primary); margin-bottom: 1.5rem;">👥 User Terdaftar Terbaru</h3>
+                
+                <?php if (empty($recent_users)): ?>
+                    <p style="text-align: center; color: var(--gray); padding: 2rem;">Belum ada user terdaftar.</p>
+                <?php else: ?>
+                    <div style="overflow-x: auto;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>No. HP</th>
+                                    <th>Tanggal Daftar</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($recent_users as $user): ?>
+                                <tr>
+                                    <td>#<?= $user['id'] ?></td>
+                                    <td>
+                                        <strong><?= htmlspecialchars($user['nama']) ?></strong>
+                                    </td>
+                                    <td><?= htmlspecialchars($user['email']) ?></td>
+                                    <td><?= $user['no_hp'] ? htmlspecialchars($user['no_hp']) : '-' ?></td>
+                                    <td><?= date('d/m/Y H:i', strtotime($user['created_at'])) ?></td>
+                                    <td>
+                                        <?php
+                                        // Check if user has orders
+                                        $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM pesanan WHERE user_id = ?");
+                                        $stmt->execute([$user['id']]);
+                                        $order_count = $stmt->fetch()['total'];
+                                        ?>
+                                        <?php if ($order_count > 0): ?>
+                                            <span class="badge badge-valid"><?= $order_count ?> Pesanan</span>
+                                        <?php else: ?>
+                                            <span class="badge badge-pending">Belum Pesan</span>
                                         <?php endif; ?>
                                     </td>
                                 </tr>

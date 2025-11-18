@@ -32,8 +32,17 @@ $orders = $stmt->fetchAll();
                 <li><a href="index.php">Home</a></li>
                 <li><a href="#paket">Paket Wisata</a></li>
                 <li><a href="#galeri">Galeri</a></li>
-                <li><a href="payment-status.php">Pesanan Saya</a></li>
-                <li><a href="logout.php">Logout</a></li>
+                <?php if (is_logged_in()): ?>
+                    <?php if (is_admin()): ?>
+                        <li><a href="../admin/dashboard.php">Admin Panel</a></li>
+                    <?php else: ?>
+                        <li><a href="pyment-status.php">Pesanan Saya</a></li>
+                    <?php endif; ?>
+                    <li><a href="logout.php">Logout</a></li>
+                <?php else: ?>
+                    <li><a href="login.php">Login</a></li>
+                    <li><a href="register.php">Register</a></li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
