@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/config.php';
 require_once '../includes/session.php';
+require_once '../includes/function.php';
 
 require_admin();
 
@@ -83,10 +84,10 @@ $total_spent = array_sum(array_column(array_filter($orders, fn($o) => $o['paymen
                             <div>
                                 <label style="color: var(--gray); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">📱 No. HP</label>
                                 <strong style="font-size: 1.1rem;"><?= htmlspecialchars($user['no_hp']) ?></strong>
-                                <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $user['no_hp']) ?>" 
+                                <a href="https://wa.me/<?= preg_replace('/[^0-7]/', '', $user['no_hp']) ?>" 
                                    target="_blank"
                                    class="btn btn-primary" 
-                                   style="display: inline-block; margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 0.85rem;">
+                                   style="display: inline-block; margin-top: 0.rem; padding: 0.5rem ; font-size: 0.5rem;">
                                     💬 Chat WhatsApp
                                 </a>
                             </div>

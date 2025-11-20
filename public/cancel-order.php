@@ -37,18 +37,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($alasan)) {
         $error = 'Alasan pembatalan harus diisi!';
     } else {
-        // Update order status
-        $stmt = $pdo->prepare("UPDATE pesanan SET status = 'cancelled', catatan = CONCAT(catatan, '\n\n[DIBATALKAN] ', ?) WHERE id = ?");
-        
-        if ($stmt->execute([$alasan, $pesanan_id])) {
-            // Update payment if exists
-            $stmt = $pdo->prepare("UPDATE pembayaran SET status = 'invalid', keterangan = 'Dibatalkan oleh user' WHERE pesanan_id = ?");
+        try {
+            // Start transaction
+            $pdo->beginTransaction();
+            
+            // Get full order details for logging
+            $stmt = $pdo->prepare("
+                SELECT p.*, pw.nama_paket, u.nama as user_nama, u.email as user_email
+                FROM pesanan p
+                LEFT JOIN paket_wisata pw ON p.paket_id = pw.id
+                LEFT JOIN users u ON p.user_id = u.id
+                WHERE p.id = ?
+            ");
+            $stmt->execute([$pesanan_id]);
+            $order_detail = $stmt->fetch();
+            
+            // Save to cancelled orders log
+            $stmt = $pdo->prepare("
+                INSERT INTO cancelled_orders_log 
+                (pesanan_id, user_id, user_nama, user_email, paket_id, nama_paket, 
+                 tanggal_berangkat, jumlah_peserta, total_harga, alasan_pembatalan)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([
+                $order_detail['id'],
+                $order_detail['user_id'],
+                $order_detail['user_nama'],
+                $order_detail['user_email'],
+                $order_detail['paket_id'],
+                $order_detail['nama_paket'],
+                $order_detail['tanggal_berangkat'],
+                $order_detail['jumlah_peserta'],
+                $order_detail['total_harga'],
+                $alasan
+            ]);
+            
+            // Delete payment record first (if exists)
+            $stmt = $pdo->prepare("DELETE FROM pembayaran WHERE pesanan_id = ?");
             $stmt->execute([$pesanan_id]);
             
-            alert('Pesanan berhasil dibatalkan!', 'success');
+            // Delete order
+            $stmt = $pdo->prepare("DELETE FROM pesanan WHERE id = ?");
+            $stmt->execute([$pesanan_id]);
+            
+            // Commit transaction
+            $pdo->commit();
+            
+            alert('Pesanan berhasil dibatalkan dan dihapus!', 'success');
             redirect('payment-status.php');
-        } else {
-            $error = 'Gagal membatalkan pesanan!';
+        } catch (Exception $e) {
+            // Rollback on error
+            $pdo->rollBack();
+            $error = 'Gagal membatalkan pesanan! ' . $e->getMessage();
         }
     }
 }
@@ -75,9 +115,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section class="section">
         <div class="container">
-            <a href="payment-status.php" style="color: var(--primary); margin-bottom: 1rem; display: inline-block;">← Kembali ke Pesanan</a>
+            <a href="pyment-status.php" style="color: var(--primary); margin-bottom: 1rem; display: inline-block;">← Kembali ke Pesanan</a>
             
-            <h2 class="section-title">🚫 Batalkan Pesanan</h2>
+            <h2 class="section-title">🗑️ Batalkan & Hapus Pesanan</h2>
             
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger"><?= $error ?></div>
@@ -96,11 +136,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <h3 style="color: var(--danger); margin-bottom: 1rem;">⚠️ Konfirmasi Pembatalan</h3>
                             
                             <div style="background: #fee2e2; padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--danger); margin-bottom: 2rem;">
-                                <strong>Perhatian:</strong>
+                                <strong>⚠️ Perhatian:</strong>
                                 <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
-                                    <li>Pesanan yang dibatalkan tidak dapat dikembalikan</li>
-                                    <li>Jika sudah transfer, silakan hubungi admin untuk proses refund</li>
-                                    <li>Pastikan alasan pembatalan jelas</li>
+                                    <li><strong>Pesanan akan dihapus permanen</strong> dari sistem</li>
+                                    <li>Data tidak dapat dikembalikan setelah dihapus</li>
+                                    <li>Jika sudah transfer, segera hubungi admin untuk proses refund</li>
+                                    <li>Pastikan alasan pembatalan jelas untuk keperluan refund</li>
                                 </ul>
                             </div>
                             
@@ -117,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                                         <input type="checkbox" required
                                                style="width: 20px; height: 20px; cursor: pointer;">
-                                        <span style="font-size: 0.95rem;">Saya yakin ingin membatalkan pesanan ini</span>
+                                        <span style="font-size: 0.95rem;"><strong>Saya yakin ingin membatalkan dan menghapus pesanan ini secara permanen</strong></span>
                                     </label>
                                 </div>
                                 
@@ -126,8 +167,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         Kembali
                                     </a>
                                     <button type="submit" class="btn" 
-                                            style="background: var(--danger); color: white;">
-                                        🚫 Batalkan Pesanan
+                                            style="background: var(--danger); color: white;"
+                                            onclick="return confirm('⚠️ PERINGATAN!\n\nPesanan ini akan DIHAPUS PERMANEN dari sistem!\nData tidak dapat dikembalikan.\n\nYakin ingin melanjutkan?')">
+                                        🗑️ Batalkan & Hapus Pesanan
                                     </button>
                                 </div>
                             </form>

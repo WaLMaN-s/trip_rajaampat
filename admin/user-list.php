@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/config.php';
 require_once '../includes/session.php';
+require_once '../includes/function.php';
 
 require_admin();
 
@@ -64,7 +65,7 @@ $users = $stmt->fetchAll();
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                   
                                     <th>Nama</th>
                                     <th>Kontak</th>
                                     <th>Tanggal Daftar</th>
@@ -76,7 +77,7 @@ $users = $stmt->fetchAll();
                             <tbody>
                                 <?php foreach ($users as $user): ?>
                                 <tr>
-                                    <td><strong>#<?= $user['id'] ?></strong></td>
+                                   
                                     <td>
                                         <strong><?= htmlspecialchars($user['nama']) ?></strong><br>
                                         <?php if ($user['alamat']): ?>
@@ -119,37 +120,7 @@ $users = $stmt->fetchAll();
                         </table>
                     </div>
                 </div>
-                
-                <!-- Statistics -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-                    <div class="detail-info">
-                        <div style="text-align: center; padding: 1rem;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">👤</div>
-                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">
-                                <?= count(array_filter($users, fn($u) => $u['total_pesanan'] > 0)) ?>
-                            </div>
-                            <p style="color: var(--gray); margin: 0;">User Aktif</p>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-info">
-                        <div style="text-align: center; padding: 1rem;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">💤</div>
-                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--gray);">
-                                <?= count(array_filter($users, fn($u) => $u['total_pesanan'] == 0)) ?>
-                            </div>
-                            <p style="color: var(--gray); margin: 0;">Belum Pesan</p>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-info">
-                        <div style="text-align: center; padding: 1rem;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">💰</div>
-                            <div style="font-size: 1.3rem; font-weight: bold; color: var(--success);">
-                                <?= rupiah(array_sum(array_column($users, 'total_spending'))) ?>
-                            </div>
-                            <p style="color: var(--gray); margin: 0;">Total Revenue dari User</p>
-                        </div>
+        
                     </div>
                 </div>
             <?php endif; ?>

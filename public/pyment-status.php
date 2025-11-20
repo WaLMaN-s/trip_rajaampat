@@ -30,19 +30,9 @@ $orders = $stmt->fetchAll();
             <a href="index.php" class="navbar-brand"><?= SITE_NAME ?></a>
             <ul class="navbar-menu">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="#paket">Paket Wisata</a></li>
-                <li><a href="#galeri">Galeri</a></li>
-                <?php if (is_logged_in()): ?>
-                    <?php if (is_admin()): ?>
-                        <li><a href="../admin/dashboard.php">Admin Panel</a></li>
-                    <?php else: ?>
-                        <li><a href="pyment-status.php">Pesanan Saya</a></li>
-                    <?php endif; ?>
-                    <li><a href="logout.php">Logout</a></li>
-                <?php else: ?>
-                    <li><a href="login.php">Login</a></li>
-                    <li><a href="register.php">Register</a></li>
-                <?php endif; ?>
+               
+                <li><a href="pyment-status.php">Pesanan Saya</a></li>
+                <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
     </nav>
@@ -77,12 +67,28 @@ $orders = $stmt->fetchAll();
                                         <a href="payment.php?id=<?= $order['id'] ?>" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
                                             Bayar Sekarang
                                         </a>
+                                        <a href="cancel-order.php?id=<?= $order['id'] ?>" 
+                                           class="btn" 
+                                           style="width: 100%; margin-top: 0.5rem; background: var(--danger); color: white;"
+                                           onclick="return confirm('Yakin ingin membatalkan pesanan ini?')">
+                                            🚫 Batalkan Pesanan
+                                        </a>
                                     <?php elseif ($order['payment_status'] === 'pending'): ?>
                                         <span class="badge badge-pending" style="display: block; padding: 0.75rem; font-size: 1rem;">⏳ Menunggu Verifikasi</span>
                                         <p style="color: var(--gray); font-size: 0.85rem; margin-top: 0.5rem;">Bukti pembayaran sedang diverifikasi admin</p>
+                                        <a href="cancel-order.php?id=<?= $order['id'] ?>" 
+                                           class="btn" 
+                                           style="width: 100%; margin-top: 1rem; background: var(--danger); color: white; font-size: 0.9rem;"
+                                           onclick="return confirm('Yakin ingin membatalkan pesanan ini?')">
+                                            🚫 Batalkan Pesanan
+                                        </a>
                                     <?php elseif ($order['payment_status'] === 'valid'): ?>
                                         <span class="badge badge-valid" style="display: block; padding: 0.75rem; font-size: 1rem;">✓ Pembayaran Valid</span>
                                         <p style="color: var(--success); font-size: 0.85rem; margin-top: 0.5rem;">Pesanan Anda dikonfirmasi!</p>
+                                        <div style="background: #d1fae5; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-size: 0.85rem; color: #065f46;">
+                                            <strong>✓ Pesanan Dikonfirmasi</strong><br>
+                                            Kami akan menghubungi Anda untuk detail lebih lanjut.
+                                        </div>
                                     <?php else: ?>
                                         <span class="badge badge-invalid" style="display: block; padding: 0.75rem; font-size: 1rem;">✗ Pembayaran Ditolak</span>
                                         <?php if ($order['keterangan']): ?>
@@ -93,6 +99,12 @@ $orders = $stmt->fetchAll();
                                         <?php endif; ?>
                                         <a href="payment.php?id=<?= $order['id'] ?>" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
                                             Upload Ulang
+                                        </a>
+                                        <a href="cancel-order.php?id=<?= $order['id'] ?>" 
+                                           class="btn" 
+                                           style="width: 100%; margin-top: 0.5rem; background: var(--danger); color: white; font-size: 0.9rem;"
+                                           onclick="return confirm('Yakin ingin membatalkan pesanan ini?')">
+                                            🚫 Batalkan Pesanan
                                         </a>
                                     <?php endif; ?>
                                 </div>

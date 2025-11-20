@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/config.php';
 require_once '../includes/session.php';
+require_once '../includes/function.php';
 
 $id = $_GET['id'] ?? 0;
 
@@ -31,10 +32,10 @@ $itinerary = explode('|', $package['itinerary']);
             <a href="index.php" class="navbar-brand"><?= SITE_NAME ?></a>
             <ul class="navbar-menu">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="#paket">Paket Wisata</a></li>
-                <li><a href="#galeri"> User</a></li>
+                <li><a href="paket.php">Paket Wisata</a></li>
+            
                 <?php if (is_logged_in()): ?>
-                    <li><a href="payment-status.php">Pesanan Saya</a></li>
+                    <li><a href="pyment-status.php">Pesanan Saya</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 <?php else: ?>
                     <li><a href="login.php">Login</a></li>

@@ -80,18 +80,38 @@ CREATE TABLE IF NOT EXISTS galeri (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- Table: cancelled_orders_log (untuk tracking pesanan yang dibatalkan)
+CREATE TABLE IF NOT EXISTS cancelled_orders_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pesanan_id INT NOT NULL,
+    user_id INT NOT NULL,
+    user_nama VARCHAR(100),
+    user_email VARCHAR(100),
+    paket_id INT,
+    nama_paket VARCHAR(200),
+    tanggal_berangkat DATE,
+    jumlah_peserta INT,
+    total_harga DECIMAL(12,2),
+    alasan_pembatalan TEXT,
+    cancelled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Insert sample paket wisata
 INSERT INTO paket_wisata (nama_paket, deskripsi, durasi, harga, foto, fasilitas, itinerary, tersedia) VALUES
-('Paket Snorkeling Paradise', 'Nikmati keindahan bawah laut Raja Ampat dengan snorkeling di spot-spot terbaik', '3 Hari 2 Malam', 3500000, 'snorkeling.jpg', 'Penginapan, Makan 3x sehari, Peralatan snorkeling, Guide profesional, Dokumentasi underwater', 'Hari 1: Penjemputan - Check in - Island hopping|Hari 2: Snorkeling spot terbaik - Manta point|Hari 3: Sunrise tour - Check out', 1),
-('Paket Island Hopping Premium', 'Jelajahi pulau-pulau eksotis di Raja Ampat dengan boat premium', '4 Hari 3 Malam', 5500000, 'island.jpg', 'Penginapan resort, Makan 3x sehari, Speedboat premium, Guide & crew, Dokumentasi profesional, Welcome drink', 'Hari 1: Arrival - Wayag viewpoint|Hari 2: Pianemo - Lagoon biru|Hari 3: Pasir timbul - Snorkeling|Hari 4: Breakfast - Departure', 1),
-('Paket Diving Adventure', 'Eksplorasi diving spot kelas dunia di Raja Ampat untuk para penyelam', '5 Hari 4 Malam', 8500000, 'diving.jpg', 'Penginapan dive resort, Makan 3x sehari, 8x diving, Diving equipment, Sertifikat diver, Insurance, Guide & DM', 'Hari 1: Arrival - Check dive|Hari 2-4: Diving sessions di berbagai spot|Hari 5: Relax dive - Departure', 1),
-('Paket Honeymoon Romantic', 'Paket spesial untuk pasangan yang ingin merayakan momen istimewa di surga tersembunyi', '3 Hari 2 Malam', 7500000, 'honeymoon.jpg', 'Private cottage, Romantic dinner, Couple spa, Private boat tour, Flower decoration, Fotografi profesional, Airport transfer', 'Hari 1: Welcome - Romantic dinner di pantai|Hari 2: Private island tour - Couple spa|Hari 3: Sunrise breakfast - Departure', 1);
+('Paket ONE DAY TRIP', 'Nikmati keindahan bawah laut Raja Ampat dengan snorkeling di spot-spot terbaik', '1 Hari', 1950000, 'snorkeling.jpg', 'Speedboat, Makan 3 kali, Biaya masuk tiap spot, Dokumentasi underwater', 'Piaynemo - Friwen - Yenbuba - Pasir Timbul', 1),
+('Paket 2 DAYS 1 NIGHT', 'Jelajahi pulau-pulau eksotis di Raja Ampat dengan boat premium', '2 Hari 1 Malam', 3950000, 'island.jpg', 'Penginapan resort, Makan 6x, Speedboat premium, Guide & crew, Dokumentasi profesional, Welcome drink', 'Hari 1: Arrival - Pianemo - Telaga Bintang|Hari 2: Friwen - Pasir Timbul - Kali Biru - Departure', 1),
+('Paket 3 DAYS 2 NIGHTS', 'Paket lengkap menjelajahi spot-spot terbaik Raja Ampat', '3 Hari 2 Malam', 5950000, 'diving.jpg', 'Penginapan homestay, Makan 9x, Speedboat, Guide profesional, Dokumentasi, Snorkeling equipment', 'Hari 1: Piaynemo - Telaga Bintang - Friwen|Hari 2: Yenbuba - Pasir Timbul - Kali Biru|Hari 3: Kabui - Batu Pensil - Sayundarak - Departure', 1),
+('Paket Honeymoon Romantic', 'Paket spesial untuk pasangan yang ingin merayakan momen istimewa di surga tersembunyi', '3 Hari 2 Malam', 7500000, 'honeymoon.jpg', 'Private cottage, Romantic dinner, Couple spa, Private boat tour, Flower decoration, Fotografi profesional, Airport transfer', 'Hari 1: Welcome - Romantic dinner di pantai|Hari 2: Private island tour - Piaynemo - Telaga Bintang|Hari 3: Sunrise breakfast - Departure', 1);
 
 -- Insert sample galeri
 INSERT INTO galeri (judul, deskripsi, foto, urutan, tampilkan) VALUES
-('Keindahan Bawah Laut Raja Ampat', 'Terumbu karang yang masih alami dengan keanekaragaman hayati luar biasa', 'gallery-1.jpg', 1, 1),
-('Pianemo - Icon Raja Ampat', 'Pemandangan dari atas bukit Pianemo yang menakjubkan', 'gallery-2.jpg', 2, 1),
-('Snorkeling dengan Manta', 'Pengalaman berenang bersama manta ray yang ramah', 'gallery-3.jpg', 3, 1),
-('Sunset di Pantai Pasir Putih', 'Momen sunset yang indah di pantai Raja Ampat', 'gallery-4.jpg', 4, 1),
-('Wayag Island', 'Kepulauan karst yang ikonik di Raja Ampat', 'gallery-5.jpg', 5, 1),
-('Diving Paradise', 'Spot diving terbaik dengan visibility tinggi', 'gallery-6.jpg', 6, 1);
+('Piaynemo', 'Piaynemo adalah ikon Raja Ampat dengan pemandangan gugusan pulau karst yang indah', 'gallery-1.jpg', 1, 1),
+('Telaga Bintang', 'Telaga Bintang terkenal karena bentuknya yang menyerupai bintang jika dilihat dari atas', 'gallery-2.jpg', 2, 1),
+('Friwen', 'Friwen terkenal dengan air laut super jernih dan suasana pantai yang tenang', 'gallery-3.jpg', 3, 1),
+('Yenbuba', 'Yenbuba memiliki jembatan panjang yang menjadi spot foto favorit', 'gallery-4.jpg', 4, 1),
+('Pasir Timbul', 'Pasir Timbul adalah daratan pasir putih yang muncul saat air laut surut', 'gallery-5.jpg', 5, 1),
+('Kali Biru', 'Kali Biru terkenal dengan warna airnya yang biru jernih', 'gallery-6.jpg', 6, 1),
+('Kabui', 'Kabui memiliki tebing karst tinggi dengan air toska yang indah', 'gallery-7.jpg', 7, 1),
+('Batu Pensil', 'Batu Pensil adalah batu karst tinggi yang berbentuk mirip pensil', 'gallery-8.jpg', 8, 1),
+('Sayundarak', 'Sayundarak menawarkan pemandangan karst megah dari atas perahu', 'gallery-9.jpg', 9, 1),
+('Diving Paradise', 'Spot diving terbaik dengan visibility tinggi dan keanekaragaman hayati luar biasa', 'gallery-10.jpg', 10, 1);

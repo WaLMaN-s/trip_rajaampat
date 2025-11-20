@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/config.php';
 require_once '../includes/session.php';
+require_once '../includes/function.php';
 
 require_admin();
 
@@ -39,7 +40,7 @@ if (!$payment) {
                 <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="paket-list.php">Paket Wisata</a></li>
                 <li><a href="galeri-list.php">galeri</a></li>
-                <li><a href="user-list.php"> User</a></li>
+                <li><a href="user-list.php">User</a></li>
                 <li><a href="pembayaran-list.php">Pembayaran</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>

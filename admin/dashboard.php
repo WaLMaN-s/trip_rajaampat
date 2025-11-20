@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/config.php';
 require_once '../includes/session.php';
+require_once '../includes/function.php';
 
 require_admin();
 
@@ -30,6 +31,10 @@ $stats['revenue'] = $stmt->fetch()['total'] ?? 0;
 // Total users
 $stmt = $pdo->query("SELECT COUNT(*) as total FROM users WHERE role = 'user'");
 $stats['users'] = $stmt->fetch()['total'];
+
+// Total cancelled orders
+$stmt = $pdo->query("SELECT COUNT(*) as total FROM cancelled_orders_log");
+$stats['cancelled'] = $stmt->fetch()['total'];
 
 // Recent orders
 $stmt = $pdo->query("

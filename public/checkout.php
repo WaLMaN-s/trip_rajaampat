@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/config.php';
 require_once '../includes/session.php';
+require_once '../includes/function.php';
 
 require_login();
 
@@ -64,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="index.php" class="navbar-brand"><?= SITE_NAME ?></a>
             <ul class="navbar-menu">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="payment-status.php">Pesanan Saya</a></li>
+                <li><a href="pyment-status.php">Pesanan Saya</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
