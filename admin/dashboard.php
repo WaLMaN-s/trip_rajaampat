@@ -102,7 +102,7 @@ $recent_users = $stmt->fetchAll();
                     <div class="card-body" style="text-align: center;">
                         <div style="font-size: 3rem; margin-bottom: 0.5rem;">📸</div>
                         <h3 style="font-size: 2.5rem; color: #8b5cf6; margin-bottom: 0.5rem;"><?= $stats['galeri'] ?></h3>
-                        <p style="color: var(--gray);">Foto di Galeri</p>
+                        <p style="color: var(--gray);">Galeri</p>
                         <a href="galeri-list.php" style="color: #8b5cf6; font-size: 0.9rem; margin-top: 0.5rem; display: inline-block;">Kelola Galeri →</a>
                     </div>
                 </div>

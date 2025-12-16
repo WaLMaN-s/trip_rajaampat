@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="container">
             <a href="payment.php?id=<?= $pesanan_id ?>" style="color: var(--primary); margin-bottom: 1rem; display: inline-block;">← Pilih Metode Lain</a>
             
-            <h2 class="section-title">🏦 Pembayaran Transfer Bank</h2>
+            <h2 class="section-title">🏦 Pembayaran Transfer Bank Mandiri</h2>
             
             <?php if ($error): ?>
                 <div class="alert alert-danger"><?= $error ?></div>
@@ -97,11 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 12px; backdrop-filter: blur(10px);">
                                 <div style="text-align: center; margin-bottom: 1rem;">
                                     <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">Nomor Rekening</p>
-                                    <p style="font-size: 2rem; font-weight: bold; letter-spacing: 2px; font-family: 'Courier New', monospace;"><?= BANK_ACCOUNT ?></p>
+                                    <p style="font-size: 2rem; font-weight: bold; letter-spacing: 2px; font-family: 'Courier New', monospace;">1070019456922</p>
                                 </div>
                                 <div style="text-align: center; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.3);">
                                     <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">Atas Nama</p>
-                                    <p style="font-size: 1.3rem; font-weight: bold;"><?= BANK_HOLDER ?></p>
+                                    <p style="font-size: 1.3rem; font-weight: bold;">RajaAmpat Trip</p>
                                 </div>
                             </div>
                         </div>
