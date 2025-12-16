@@ -89,12 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Scan QR Code</h3>
                         
                         <div style="padding: 2rem; background: #f8fafc; border-radius: 12px; margin-bottom: 2rem;">
-                            <img src="assets/img/qris/<?= QRIS_IMAGE ?>" 
+                            <img src="assets/img/qris.jpg"  
                                  alt="QRIS Code" 
                                  style="max-width: 300px; width: 100%; border: 3px solid var(--primary); border-radius: 8px;"
                                  onerror="this.src='https://via.placeholder.com/300x300?text=QR+Code'">
                         </div>
-                        
+                          
                         <div style="background: #e0f2fe; padding: 1.5rem; border-radius: 8px; text-align: left;">
                             <h4 style="color: var(--primary); margin-bottom: 1rem;">📋 Cara Pembayaran:</h4>
                             <ol style="color: var(--gray); line-height: 2;">
