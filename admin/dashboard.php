@@ -57,6 +57,37 @@ $stmt = $pdo->query("
     LIMIT 10
 ");
 $recent_users = $stmt->fetchAll();
+
+// Tren pesanan 7 hari terakhir (untuk grafik)
+$stmt = $pdo->query("
+    SELECT DATE(created_at) as tanggal, COUNT(*) as total
+    FROM pesanan
+    WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
+    GROUP BY DATE(created_at)
+");
+$pesanan_per_hari = [];
+foreach ($stmt->fetchAll() as $row) {
+    $pesanan_per_hari[$row['tanggal']] = (int) $row['total'];
+}
+$chart_labels = [];
+$chart_data = [];
+for ($i = 6; $i >= 0; $i--) {
+    $tgl = date('Y-m-d', strtotime("-$i day"));
+    $chart_labels[] = date('d/m', strtotime($tgl));
+    $chart_data[] = $pesanan_per_hari[$tgl] ?? 0;
+}
+
+// Ringkasan status pembayaran seluruh pesanan (untuk grafik)
+$stmt = $pdo->query("
+    SELECT
+        SUM(CASE WHEN pm.status IS NULL THEN 1 ELSE 0 END) as belum_bayar,
+        SUM(CASE WHEN pm.status = 'pending' THEN 1 ELSE 0 END) as pending,
+        SUM(CASE WHEN pm.status = 'valid' THEN 1 ELSE 0 END) as valid,
+        SUM(CASE WHEN pm.status = 'invalid' THEN 1 ELSE 0 END) as invalid
+    FROM pesanan p
+    LEFT JOIN pembayaran pm ON pm.pesanan_id = p.id
+");
+$status_breakdown = $stmt->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -67,20 +98,9 @@ $recent_users = $stmt->fetchAll();
     <link rel="stylesheet" href="../public/assets/css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="dashboard.php" class="navbar-brand">Admin - <?= SITE_NAME ?></a>
-            <ul class="navbar-menu">
-                <li><a href="dashboard.php">Dashboard</a></li>
-                <li><a href="paket-list.php">Paket Wisata</a></li>
-                <li><a href="galeri-list.php">Galeri</a></li>
-                <li><a href="user-list.php">User</a></li>
-                <li><a href="pembayaran-list.php">Pembayaran</a></li>
-                <li><a href="cancelled-order.php">Log Batal</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+    <?php include __DIR__ . '/partials/sidebar.php'; ?>
+
+    <div class="admin-main">
 
     <section class="section">
         <div class="container">
@@ -143,7 +163,19 @@ $recent_users = $stmt->fetchAll();
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Charts -->
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3>📈 Tren Pesanan (7 Hari Terakhir)</h3>
+                    <canvas id="chartPesanan" height="110"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>💳 Status Pembayaran</h3>
+                    <canvas id="chartStatus" height="110"></canvas>
+                </div>
+            </div>
+
             <!-- Recent Orders -->
             <div class="detail-info">
                 <h3 style="color: var(--primary); margin-bottom: 1.5rem;">📋 Pesanan Terbaru</h3>
@@ -258,5 +290,50 @@ $recent_users = $stmt->fetchAll();
             </div>
         </div>
     </footer>
+    </div><!-- .admin-main -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script>
+    new Chart(document.getElementById('chartPesanan'), {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($chart_labels) ?>,
+            datasets: [{
+                label: 'Pesanan',
+                data: <?= json_encode($chart_data) ?>,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.12)',
+                tension: 0.35,
+                fill: true,
+                pointBackgroundColor: '#3b82f6'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+    });
+
+    new Chart(document.getElementById('chartStatus'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Belum Bayar', 'Menunggu Verifikasi', 'Valid', 'Ditolak'],
+            datasets: [{
+                data: [
+                    <?= (int) ($status_breakdown['belum_bayar'] ?? 0) ?>,
+                    <?= (int) ($status_breakdown['pending'] ?? 0) ?>,
+                    <?= (int) ($status_breakdown['valid'] ?? 0) ?>,
+                    <?= (int) ($status_breakdown['invalid'] ?? 0) ?>
+                ],
+                backgroundColor: ['#94a3b8', '#fbbf24', '#10b981', '#ef4444']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+    </script>
 </body>
 </html>

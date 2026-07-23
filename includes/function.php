@@ -34,6 +34,18 @@ function is_genuine_image($tmp_path) {
     return @getimagesize($tmp_path) !== false;
 }
 
+// Ambil alasan asli PHP saat move_uploaded_file() gagal (mis. "Permission denied"
+// karena folder uploads/ tidak bisa ditulis oleh user web server). Tanpa ini, semua
+// kegagalan cuma nongol sebagai "Gagal mengupload foto" tanpa petunjuk penyebabnya.
+function last_move_upload_error_detail() {
+    $err = error_get_last();
+    if ($err && str_contains($err['message'], 'move_uploaded_file')) {
+        $detail = preg_replace('/^move_uploaded_file\([^)]*\):\s*/', '', $err['message']);
+        return ' (' . $detail . ' - kemungkinan folder public/uploads/ belum bisa ditulis oleh web server, cek permission foldernya)';
+    }
+    return '';
+}
+
 // Terjemahkan kode error upload PHP ($_FILES['x']['error']) jadi pesan yang jelas.
 // Tanpa ini, upload yang ditolak duluan oleh batas upload_max_filesize di php.ini
 // (yang bisa jadi lebih kecil dari batas 5MB aplikasi ini) akan salah dikira "belum

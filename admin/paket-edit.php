@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 
                 if (!move_uploaded_file($_FILES['foto']['tmp_name'], $upload_path)) {
-                    $error = 'Gagal mengupload foto.';
+                    $error = 'Gagal mengupload foto.' . last_move_upload_error_detail();
                 }
             }
         }
@@ -95,18 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../public/assets/css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="dashboard.php" class="navbar-brand">Admin - <?= SITE_NAME ?></a>
-            <ul class="navbar-menu">
-                <li><a href="dashboard.php">Dashboard</a></li>
-                <li><a href="paket-list.php">Paket Wisata</a></li>
-                <li><a href="pembayaran-list.php">Pembayaran</a></li>
-                <li><a href="cancelled-order.php">Log Batal</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+    <?php include __DIR__ . '/partials/sidebar.php'; ?>
+
+    <div class="admin-main">
 
     <section class="section">
         <div class="container">
@@ -209,5 +200,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </footer>
+    </div><!-- .admin-main -->
 </body>
 </html>

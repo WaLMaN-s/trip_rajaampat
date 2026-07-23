@@ -18,20 +18,9 @@ $packages = $stmt->fetchAll();
     <link rel="stylesheet" href="../public/assets/css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="dashboard.php" class="navbar-brand">Admin - <?= SITE_NAME ?></a>
-            <ul class="navbar-menu">
-                <li><a href="dashboard.php">Dashboard</a></li>
-                <li><a href="paket-list.php">Paket Wisata</a></li>
-                <li><a href="galeri-list.php">Galeri</a></li>
-                <li><a href="user-list.php"> User</a></li>
-                <li><a href="pembayaran-list.php">Pembayaran</a></li>
-                <li><a href="cancelled-order.php">Log Batal</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+    <?php include __DIR__ . '/partials/sidebar.php'; ?>
+
+    <div class="admin-main">
 
     <section class="section">
         <div class="container">
@@ -102,5 +91,6 @@ $packages = $stmt->fetchAll();
             </div>
         </div>
     </footer>
+    </div><!-- .admin-main -->
 </body>
 </html>     

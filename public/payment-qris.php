@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = 'Gagal menyimpan data pembayaran.';
                 }
             } else {
-                $error = 'Gagal mengupload file.';
+                $error = 'Gagal mengupload file.' . last_move_upload_error_detail();
             }
         }
     } elseif (isset($_FILES['bukti'])) {

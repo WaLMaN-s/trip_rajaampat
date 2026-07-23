@@ -77,3 +77,17 @@ Setelah login sebagai admin, panel admin bisa diakses di:
 ```
 http://localhost/trip_rajaampat/admin/dashboard.php
 ```
+
+## Troubleshooting
+
+**Upload foto/bukti pembayaran gagal terus ("Gagal mengupload foto")** — hampir selalu
+karena folder `public/uploads/` (dan subfolder `galeri/`, `paket/`, `pembayaran/`) tidak
+bisa ditulis oleh user yang menjalankan Apache/PHP (biasanya `daemon`, `www-data`, atau
+`nobody`, bukan user login kamu). Kalau project ini di-copy/clone dengan kepemilikan
+folder milik user kamu sendiri, izin default (755) memang tidak mengizinkan user lain
+menulis ke situ. Perbaikannya:
+```bash
+chmod -R 777 public/uploads      # cukup untuk dev lokal
+```
+Pesan error sekarang juga menampilkan alasan asli dari PHP (mis. "Permission denied")
+supaya lebih mudah mengenali masalah ini tanpa harus menebak-nebak.
