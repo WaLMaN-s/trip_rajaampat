@@ -41,9 +41,7 @@ a {
 
 /* Navbar with Glassmorphism */
 .navbar {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(255, 255, 255, 0.96);
     color: var(--dark);
     padding: 1.25rem 0;
     position: sticky;
