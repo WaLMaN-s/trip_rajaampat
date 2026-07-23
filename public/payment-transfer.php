@@ -19,7 +19,7 @@ if (!$pesanan) {
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_FILES['bukti']) && $_FILES['bukti']['error'] === 0) {
+    if (isset($_FILES['bukti']) && $_FILES['bukti']['error'] === UPLOAD_ERR_OK) {
         $allowed = ['jpg', 'jpeg', 'png', 'pdf'];
         $filename = $_FILES['bukti']['name'];
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
@@ -54,6 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Gagal mengupload file.';
             }
         }
+    } elseif (isset($_FILES['bukti'])) {
+        $error = upload_error_message($_FILES['bukti']['error']);
     } else {
         $error = 'Silakan pilih file bukti pembayaran!';
     }

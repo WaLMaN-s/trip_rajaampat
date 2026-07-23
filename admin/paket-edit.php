@@ -34,7 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $foto_name = $package['foto'];
         
         // Handle file upload if new file is uploaded
-        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_NO_FILE) {
+            // Tidak ada foto baru dipilih, pertahankan foto lama - bukan error.
+        } elseif (isset($_FILES['foto']) && $_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
+            $error = upload_error_message($_FILES['foto']['error']);
+        } elseif (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
             $allowed = ['jpg', 'jpeg', 'png'];
             $filename = $_FILES['foto']['name'];
             $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));

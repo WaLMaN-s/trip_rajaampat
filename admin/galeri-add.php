@@ -14,8 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (empty($judul)) {
         $error = 'Judul harus diisi!';
-    } elseif (!isset($_FILES['foto']) || $_FILES['foto']['error'] !== 0) {
+    } elseif (!isset($_FILES['foto']) || $_FILES['foto']['error'] === UPLOAD_ERR_NO_FILE) {
         $error = 'Foto harus diupload!';
+    } elseif ($_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
+        $error = upload_error_message($_FILES['foto']['error']);
     } else {
         $allowed = ['jpg', 'jpeg', 'png'];
         $filename = $_FILES['foto']['name'];

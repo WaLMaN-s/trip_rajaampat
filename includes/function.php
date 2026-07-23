@@ -34,6 +34,26 @@ function is_genuine_image($tmp_path) {
     return @getimagesize($tmp_path) !== false;
 }
 
+// Terjemahkan kode error upload PHP ($_FILES['x']['error']) jadi pesan yang jelas.
+// Tanpa ini, upload yang ditolak duluan oleh batas upload_max_filesize di php.ini
+// (yang bisa jadi lebih kecil dari batas 5MB aplikasi ini) akan salah dikira "belum
+// pilih file", padahal filenya sudah dipilih tapi ditolak server sebelum sempat divalidasi.
+function upload_error_message($error_code) {
+    switch ($error_code) {
+        case UPLOAD_ERR_OK:
+            return null;
+        case UPLOAD_ERR_NO_FILE:
+            return 'Belum ada file yang dipilih!';
+        case UPLOAD_ERR_INI_SIZE:
+        case UPLOAD_ERR_FORM_SIZE:
+            return 'Ukuran file melebihi batas upload server (php.ini upload_max_filesize). Hubungi admin server atau perkecil ukuran file.';
+        case UPLOAD_ERR_PARTIAL:
+            return 'File hanya terupload sebagian, coba upload ulang.';
+        default:
+            return 'Gagal mengupload file (kode error: ' . $error_code . ').';
+    }
+}
+
 // Untuk bukti pembayaran yang juga mengizinkan PDF: validasi tipe MIME asli file.
 function is_genuine_pdf($tmp_path) {
     $mime = @mime_content_type($tmp_path);
