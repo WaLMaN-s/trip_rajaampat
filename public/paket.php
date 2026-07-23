@@ -126,5 +126,7 @@ $itinerary = array_filter(array_map('trim', explode('|', $package['itinerary']))
             </div>
         </div>
     </footer>
+
+    <script src="assets/js/scroll-effects.js?v=<?= ASSET_VERSION ?>"></script>
 </body>
 </html>

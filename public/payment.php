@@ -138,5 +138,7 @@ if ($pembayaran) {
             </div>
         </div>
     </footer>
+
+    <script src="assets/js/scroll-effects.js?v=<?= ASSET_VERSION ?>"></script>
 </body>
 </html>

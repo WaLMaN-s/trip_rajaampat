@@ -45,6 +45,7 @@ $gallery = $stmt->fetchAll();
 
     <!-- Hero Section -->
     <section class="hero">
+        <div class="hero-bg"></div>
         <div class="container">
             <h1>🌴 Selamat Datang di Raja Ampat 🌊</h1>
             <p>Jelajahi keindahan surga bawah laut terbaik di dunia dengan paket wisata terpercaya dan berpengalaman</p>
@@ -85,35 +86,37 @@ $gallery = $stmt->fetchAll();
     </section>
 
     <!-- Gallery Section -->
-    <section class="section" style="background: white;" id="galeri">
+    <section class="section gallery-section" style="background: white;" id="galeri">
         <div class="container">
             <h2 class="section-title">📸 Galeri Foto</h2>
-            <p style="text-align: center; color: var(--gray); max-width: 600px; margin: 0 auto 3rem;">
+            <p style="text-align: center; color: var(--gray); max-width: 600px; margin: 0 auto;">
                 Lihat keindahan Raja Ampat melalui koleksi foto-foto menakjubkan kami
             </p>
-            
-            <?php if (empty($gallery)): ?>
+        </div>
+
+        <?php if (empty($gallery)): ?>
+            <div class="container">
                 <p style="text-align: center; color: var(--gray); padding: 3rem;">Belum ada foto di galeri.</p>
-            <?php else: ?>
-                <div class="gallery-grid">
-                    <?php foreach ($gallery as $foto): ?>
-                    <div class="gallery-item" onclick="openLightbox('<?= htmlspecialchars($foto['foto']) ?>', '<?= htmlspecialchars($foto['judul']) ?>', '<?= htmlspecialchars($foto['deskripsi'] ?? '') ?>')">
-                        <img src="uploads/galeri/<?= htmlspecialchars($foto['foto']) ?>" 
-                             alt="<?= htmlspecialchars($foto['judul']) ?>"
-                             onerror="this.onerror=null;this.src='assets/img/placeholder.jpg'">
-                        <div class="gallery-overlay">
-                            <div class="gallery-info">
-                                <h4><?= htmlspecialchars($foto['judul']) ?></h4>
-                                <?php if ($foto['deskripsi']): ?>
-                                    <p><?= htmlspecialchars(substr($foto['deskripsi'], 0, 60)) ?>...</p>
-                                <?php endif; ?>
-                            </div>
+            </div>
+        <?php else: ?>
+            <div class="gallery-grid">
+                <?php foreach ($gallery as $foto): ?>
+                <div class="gallery-item" onclick="openLightbox('<?= htmlspecialchars($foto['foto']) ?>', '<?= htmlspecialchars($foto['judul']) ?>', '<?= htmlspecialchars($foto['deskripsi'] ?? '') ?>')">
+                    <img src="uploads/galeri/<?= htmlspecialchars($foto['foto']) ?>"
+                         alt="<?= htmlspecialchars($foto['judul']) ?>"
+                         onerror="this.onerror=null;this.src='assets/img/placeholder.jpg'">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h4><?= htmlspecialchars($foto['judul']) ?></h4>
+                            <?php if ($foto['deskripsi']): ?>
+                                <p><?= htmlspecialchars($foto['deskripsi']) ?></p>
+                            <?php endif; ?>
                         </div>
                     </div>
-                    <?php endforeach; ?>
                 </div>
-            <?php endif; ?>
-        </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </section>
 
     <!-- Lightbox Modal -->
@@ -317,5 +320,7 @@ $gallery = $stmt->fetchAll();
             </div>
         </div>
     </footer>
+
+    <script src="assets/js/scroll-effects.js?v=<?= ASSET_VERSION ?>"></script>
 </body>
 </html>

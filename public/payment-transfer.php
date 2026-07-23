@@ -215,5 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </footer>
+
+    <script src="assets/js/scroll-effects.js?v=<?= ASSET_VERSION ?>"></script>
 </body>
 </html>
