@@ -98,12 +98,6 @@ a {
     font-size: 2.25rem;
     -webkit-text-fill-color: initial;
     filter: drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3));
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
 }
 
 .navbar-menu {
@@ -153,7 +147,7 @@ a {
 
 /* Hero Section - Clean with Gradient Text */
 .hero {
-    background: url('../img/image.png') center/cover no-repeat;
+    background: linear-gradient(135deg, var(--gradient-1) 0%, var(--gradient-2) 100%) center/cover no-repeat;
     color: white;
     padding: 12rem 2rem;
     text-align: center;
@@ -451,12 +445,6 @@ a {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     position: relative;
-    animation: shimmer 3s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
 }
 
 .card-duration {
@@ -535,15 +523,7 @@ textarea.form-control {
         rgba(240, 240, 255, 0.0) 75%
     );
 
-    animation: floatGlow 20s linear infinite;
     filter: blur(40px);
-}
-
-/* Animasi halus */
-@keyframes floatGlow {
-    0%   { transform: translate(0px, 0px) rotate(0deg); }
-    50%  { transform: translate(20px, 30px) rotate(180deg); }
-    100% { transform: translate(0px, 0px) rotate(360deg); }
 }
 
 /* AUTH CARD =================================================*/
@@ -567,31 +547,6 @@ textarea.form-control {
 
     animation: fadeIn 0.5s ease-out;
 }
-
-/* Animasi masuk halus */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0px);
-    }
-}
-
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.96);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
 
 @keyframes scaleIn {
     from {
