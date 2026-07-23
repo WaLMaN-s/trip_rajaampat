@@ -36,8 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO users (nama, email, password, no_hp, role) VALUES (?, ?, ?, ?, 'user')");
             
             if ($stmt->execute([$nama, $email, $hashed, $no_hp])) {
-                alert('Registrasi berhasil! Silakan login.', 'success');
-                redirect('login.php');
+                // Langsung login-kan user setelah daftar, tidak perlu login manual lagi.
+                set_user_session([
+                    'id' => $pdo->lastInsertId(),
+                    'nama' => $nama,
+                    'email' => $email,
+                    'role' => 'user',
+                ]);
+                alert('Registrasi berhasil! Selamat datang, ' . htmlspecialchars($nama) . '.', 'success');
+                redirect('index.php');
             } else {
                 $error = 'Terjadi kesalahan. Silakan coba lagi.';
             }
