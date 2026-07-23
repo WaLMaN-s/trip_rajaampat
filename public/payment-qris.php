@@ -24,10 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $filename = $_FILES['bukti']['name'];
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
         
+        $is_pdf = $ext === 'pdf';
         if (!in_array($ext, $allowed)) {
             $error = 'Format file tidak diizinkan! Gunakan JPG, PNG, atau PDF.';
         } elseif ($_FILES['bukti']['size'] > 5 * 1024 * 1024) {
             $error = 'Ukuran file maksimal 5MB!';
+        } elseif ($is_pdf && !is_genuine_pdf($_FILES['bukti']['tmp_name'])) {
+            $error = 'File yang diupload bukan PDF yang valid.';
+        } elseif (!$is_pdf && !is_genuine_image($_FILES['bukti']['tmp_name'])) {
+            $error = 'File yang diupload bukan gambar yang valid.';
         } else {
             $newname = 'payment_' . $pesanan_id . '_' . time() . '.' . $ext;
             $upload_path = UPLOAD_DIR . 'pembayaran/' . $newname;
@@ -75,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section class="section">
         <div class="container">
-            <a href="pyment.php?id=<?= $pesanan_id ?>" style="color: var(--primary); margin-bottom: 1rem; display: inline-block;">← Pilih Metode Lain</a>
+            <a href="payment.php?id=<?= $pesanan_id ?>" style="color: var(--primary); margin-bottom: 1rem; display: inline-block;">← Pilih Metode Lain</a>
             
             <h2 class="section-title">📱 Pembayaran QRIS</h2>
             
@@ -92,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <img src="assets/img/qris.jpg"  
                                  alt="QRIS Code" 
                                  style="max-width: 300px; width: 100%; border: 3px solid var(--primary); border-radius: 8px;"
-                                 onerror="this.src='https://via.placeholder.com/300x300?text=QR+Code'">
+                                 onerror="this.onerror=null;this.src='https://via.placeholder.com/300x300?text=QR+Code'">
                         </div>
                           
                         <div style="background: #e0f2fe; padding: 1.5rem; border-radius: 8px; text-align: left;">

@@ -28,6 +28,18 @@ function is_valid_image($file) {
     return in_array($file_type, $allowed_types);
 }
 
+// Pastikan file yang diupload benar-benar gambar (bukan sekadar berekstensi .jpg/.png),
+// supaya file berbahaya yang disamarkan dengan ekstensi gambar tidak lolos.
+function is_genuine_image($tmp_path) {
+    return @getimagesize($tmp_path) !== false;
+}
+
+// Untuk bukti pembayaran yang juga mengizinkan PDF: validasi tipe MIME asli file.
+function is_genuine_pdf($tmp_path) {
+    $mime = @mime_content_type($tmp_path);
+    return $mime === 'application/pdf';
+}
+
 // Resize image
 function resize_image($source, $destination, $max_width = 800, $max_height = 600) {
     list($width, $height, $type) = getimagesize($source);

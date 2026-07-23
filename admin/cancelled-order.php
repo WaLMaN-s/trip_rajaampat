@@ -33,6 +33,7 @@ $total_lost_revenue = array_sum(array_column($cancelled_orders, 'total_harga'));
                 <li><a href="galeri-list.php">Galeri</a></li>
                 <li><a href="user-list.php">User</a></li>
                 <li><a href="pembayaran-list.php">Pembayaran</a></li>
+                <li><a href="cancelled-order.php">Log Batal</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>

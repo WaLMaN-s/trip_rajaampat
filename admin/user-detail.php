@@ -52,6 +52,7 @@ $total_spent = array_sum(array_column(array_filter($orders, fn($o) => $o['paymen
                 <li><a href="galeri-list.php">Galeri</a></li>
                 <li><a href="user-list.php">User</a></li>
                 <li><a href="pembayaran-list.php">Pembayaran</a></li>
+                <li><a href="cancelled-order.php">Log Batal</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
@@ -84,10 +85,10 @@ $total_spent = array_sum(array_column(array_filter($orders, fn($o) => $o['paymen
                             <div>
                                 <label style="color: var(--gray); font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">📱 No. HP</label>
                                 <strong style="font-size: 1.1rem;"><?= htmlspecialchars($user['no_hp']) ?></strong>
-                                <a href="https://wa.me/<?= preg_replace('/[^0-7]/', '', $user['no_hp']) ?>" 
+                                <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $user['no_hp']) ?>"
                                    target="_blank"
-                                   class="btn btn-primary" 
-                                   style="display: inline-block; margin-top: 0.rem; padding: 0.5rem ; font-size: 0.5rem;">
+                                   class="btn btn-primary"
+                                   style="display: inline-block; margin-top: 0.5rem; padding: 0.5rem 1rem; font-size: 0.85rem;">
                                     💬 Chat WhatsApp
                                 </a>
                             </div>

@@ -33,6 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (empty($tanggal) || $jumlah < 1 || empty($nama) || empty($email) || empty($no_hp)) {
         $error = 'Semua field wajib diisi!';
+    } elseif ($jumlah > 20) {
+        $error = 'Jumlah peserta maksimal 20 orang.';
+    } elseif (!is_valid_date($tanggal) || $tanggal < date('Y-m-d', strtotime('+3 days'))) {
+        $error = 'Tanggal keberangkatan minimal 3 hari dari sekarang.';
     } else {
         $total = $package['harga'] * $jumlah;
         
@@ -65,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="index.php" class="navbar-brand"><?= SITE_NAME ?></a>
             <ul class="navbar-menu">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="pyment-status.php">Pesanan Saya</a></li>
+                <li><a href="payment-status.php">Pesanan Saya</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>

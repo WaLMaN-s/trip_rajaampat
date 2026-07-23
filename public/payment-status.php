@@ -31,7 +31,7 @@ $orders = $stmt->fetchAll();
             <ul class="navbar-menu">
                 <li><a href="index.php">Home</a></li>
                
-                <li><a href="pyment-status.php">Pesanan Saya</a></li>
+                <li><a href="payment-status.php">Pesanan Saya</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>

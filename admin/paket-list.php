@@ -27,6 +27,7 @@ $packages = $stmt->fetchAll();
                 <li><a href="galeri-list.php">Galeri</a></li>
                 <li><a href="user-list.php"> User</a></li>
                 <li><a href="pembayaran-list.php">Pembayaran</a></li>
+                <li><a href="cancelled-order.php">Log Batal</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
@@ -55,7 +56,7 @@ $packages = $stmt->fetchAll();
                         <img src="../public/uploads/paket/<?= htmlspecialchars($package['foto']) ?>" 
                              alt="<?= htmlspecialchars($package['nama_paket']) ?>" 
                              class="card-img"
-                             onerror="this.src='../public/assets/img/placeholder.jpg'">
+                             onerror="this.onerror=null;this.src='../public/assets/img/placeholder.jpg'">
                         <div class="card-body">
                             <h3 class="card-title"><?= htmlspecialchars($package['nama_paket']) ?></h3>
                             <p class="card-text"><?= substr(htmlspecialchars($package['deskripsi']), 0, 100) ?>...</p>

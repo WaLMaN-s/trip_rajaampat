@@ -27,6 +27,7 @@ $photos = $stmt->fetchAll();
                 <li><a href="galeri-list.php">Galeri</a></li>
                 <li><a href="user-list.php"> User</a></li>
                 <li><a href="pembayaran-list.php">Pembayaran</a></li>
+                <li><a href="cancelled-order.php">Log Batal</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
@@ -55,7 +56,7 @@ $photos = $stmt->fetchAll();
                         <img src="../public/uploads/galeri/<?= htmlspecialchars($foto['foto']) ?>" 
                              alt="<?= htmlspecialchars($foto['judul']) ?>" 
                              class="card-img"
-                             onerror="this.src='../public/assets/img/placeholder.jpg'">
+                             onerror="this.onerror=null;this.src='../public/assets/img/placeholder.jpg'">
                         
                         <?php if (!$foto['tampilkan']): ?>
                             <div style="position: absolute; top: 10px; left: 10px; background: rgba(239,68,68,0.9); color: white; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600;">

@@ -32,7 +32,7 @@ $gallery = $stmt->fetchAll();
                     <?php if (is_admin()): ?>
                         <li><a href="../admin/dashboard.php">Admin Panel</a></li>
                     <?php else: ?>
-                        <li><a href="pyment-status.php">Pesanan Saya</a></li>
+                        <li><a href="payment-status.php">Pesanan Saya</a></li>
                     <?php endif; ?>
                     <li><a href="logout.php">Logout </a></li>
                 <?php else: ?>
@@ -64,7 +64,7 @@ $gallery = $stmt->fetchAll();
                     <img src="uploads/paket/<?= htmlspecialchars($package['foto']) ?>" 
                          alt="<?= htmlspecialchars($package['nama_paket']) ?>" 
                          class="card-img"
-                         onerror="this.src='assets/img/placeholder.jpg'">
+                         onerror="this.onerror=null;this.src='assets/img/placeholder.jpg'">
                     <div class="card-body">
                         <h3 class="card-title"><?= htmlspecialchars($package['nama_paket']) ?></h3>
                         <p class="card-text"><?= substr(htmlspecialchars($package['deskripsi']), 0, 100) ?>...</p>
@@ -100,7 +100,7 @@ $gallery = $stmt->fetchAll();
                     <div class="gallery-item" onclick="openLightbox('<?= htmlspecialchars($foto['foto']) ?>', '<?= htmlspecialchars($foto['judul']) ?>', '<?= htmlspecialchars($foto['deskripsi'] ?? '') ?>')">
                         <img src="uploads/galeri/<?= htmlspecialchars($foto['foto']) ?>" 
                              alt="<?= htmlspecialchars($foto['judul']) ?>"
-                             onerror="this.src='assets/img/placeholder.jpg'">
+                             onerror="this.onerror=null;this.src='assets/img/placeholder.jpg'">
                         <div class="gallery-overlay">
                             <div class="gallery-info">
                                 <h4><?= htmlspecialchars($foto['judul']) ?></h4>
@@ -150,7 +150,7 @@ $gallery = $stmt->fetchAll();
     <section class="section" id="syarat" style="background: linear-gradient(135deg, rgba(157, 188, 235, 1) 0%, #a0e1f3ff 100%);">
         <div class="container">
             <h2 class="section-title" style="color: white !important;">📋 Syarat & Ketentuan</h2>
-            <p style="text-align: center; #a0e1f3: ; max-width: 600px; margin: 0 auto 3rem; opacity: 0.95;">
+            <p style="text-align: center; color: #fff; max-width: 600px; margin: 0 auto 3rem; opacity: 0.95;">
                 Harap baca syarat dan ketentuan berikut sebelum melakukan pemesanan
             </p>
             
@@ -297,18 +297,18 @@ $gallery = $stmt->fetchAll();
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Raja Ampat Trip</h3>
-                    <p>Penyedia layanan wisata terpercaya di Raja Ampat sejak tadi malam. Kami berkomitmen memberikan pengalaman terbaik untuk perjalanan Anda.</p>
+                    <p>Penyedia layanan wisata terpercaya di Raja Ampat. Kami berkomitmen memberikan pengalaman terbaik untuk perjalanan Anda.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Kontak</h3>
-                    <p>📧 Email: info@404brainnotfound</p>
+                    <p>📧 Email: info@rajaampat.com</p>
                     <p>📱 WhatsApp: +62 812-3456-7890</p>
                     <p>📍 Waisai, Raja Ampat, Papua Barat Daya</p>
                 </div>
                 <div class="footer-section">
                     <h3>Sosial Media</h3>
-                    <p>Instagram: @404brainnotfound</p>
-                    <p>Facebook: @404brainotfaound</p>
+                    <p>Instagram: @rajaampattrip</p>
+                    <p>Facebook: @rajaampattrip</p>
                     <p>YouTube: Raja Ampat Adventures</p>
                 </div>
             </div>

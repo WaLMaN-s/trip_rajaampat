@@ -14,8 +14,8 @@ if (!$package) {
     redirect('index.php');
 }
 
-$fasilitas = explode(',', $package['fasilitas']);
-$itinerary = explode('|', $package['itinerary']);
+$fasilitas = array_filter(array_map('trim', explode(',', $package['fasilitas'])));
+$itinerary = array_filter(array_map('trim', explode('|', $package['itinerary'])));
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -35,7 +35,7 @@ $itinerary = explode('|', $package['itinerary']);
                 <li><a href="paket.php">Paket Wisata</a></li>
             
                 <?php if (is_logged_in()): ?>
-                    <li><a href="pyment-status.php">Pesanan Saya</a></li>
+                    <li><a href="payment-status.php">Pesanan Saya</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 <?php else: ?>
                     <li><a href="login.php">Login</a></li>
@@ -57,7 +57,7 @@ $itinerary = explode('|', $package['itinerary']);
                     <img src="uploads/paket/<?= htmlspecialchars($package['foto']) ?>" 
                          alt="<?= htmlspecialchars($package['nama_paket']) ?>" 
                          class="detail-img"
-                         onerror="this.src='assets/img/placeholder.jpg'">
+                         onerror="this.onerror=null;this.src='assets/img/placeholder.jpg'">
                     
                     <div class="detail-info" style="margin-top: 2rem;">
                         <h1><?= htmlspecialchars($package['nama_paket']) ?></h1>

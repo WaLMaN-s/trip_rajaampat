@@ -24,10 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $filename = $_FILES['bukti']['name'];
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
         
+        $is_pdf = $ext === 'pdf';
         if (!in_array($ext, $allowed)) {
             $error = 'Format file tidak diizinkan! Gunakan JPG, PNG, atau PDF.';
         } elseif ($_FILES['bukti']['size'] > 5 * 1024 * 1024) {
             $error = 'Ukuran file maksimal 5MB!';
+        } elseif ($is_pdf && !is_genuine_pdf($_FILES['bukti']['tmp_name'])) {
+            $error = 'File yang diupload bukan PDF yang valid.';
+        } elseif (!$is_pdf && !is_genuine_image($_FILES['bukti']['tmp_name'])) {
+            $error = 'File yang diupload bukan gambar yang valid.';
         } else {
             $newname = 'payment_' . $pesanan_id . '_' . time() . '.' . $ext;
             $upload_path = UPLOAD_DIR . 'pembayaran/' . $newname;
@@ -41,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 if ($stmt->execute([$pesanan_id, $pesanan['total_harga'], $newname])) {
                     alert('Bukti pembayaran berhasil diupload! Mohon tunggu konfirmasi admin.', 'success');
-                    redirect('pyment-status.php');
+                    redirect('payment-status.php');
                 } else {
                     $error = 'Gagal menyimpan data pembayaran.';
                 }

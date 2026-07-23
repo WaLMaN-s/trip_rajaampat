@@ -1,4 +1,7 @@
 <?php
+// Aktifkan session untuk fungsi alert
+session_start();
+
 // Database Configuration
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
@@ -9,7 +12,7 @@ define('DB_NAME', 'rajaampat_trip');
 define('SITE_NAME', 'Raja Ampat Trip');
 define('SITE_URL', 'http://localhost/trip_rajaampat/public');
 define('UPLOAD_DIR', __DIR__ . '/../public/uploads/');
-define('UPLOAD_URL', SITE_URL . '/public/uploads/');
+define('UPLOAD_URL', SITE_URL . '/uploads/'); // Perbaikan: Menghilangkan dobel public
 
 // Payment Configuration
 define('QRIS_IMAGE', 'qris-rajaampat.png');

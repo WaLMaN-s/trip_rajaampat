@@ -40,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Format foto tidak diizinkan! Gunakan JPG atau PNG.';
             } elseif ($_FILES['foto']['size'] > 5 * 1024 * 1024) {
                 $error = 'Ukuran foto maksimal 5MB!';
+            } elseif (!is_genuine_image($_FILES['foto']['tmp_name'])) {
+                $error = 'File yang diupload bukan gambar yang valid.';
             } else {
                 // Delete old photo
                 if ($foto['foto'] && file_exists(UPLOAD_DIR . 'galeri/' . $foto['foto'])) {
@@ -93,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><a href="paket-list.php">Paket Wisata</a></li>
                 <li><a href="galeri-list.php">Galeri</a></li>
                 <li><a href="pembayaran-list.php">Pembayaran</a></li>
+                <li><a href="cancelled-order.php">Log Batal</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
@@ -115,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <img src="../public/uploads/galeri/<?= htmlspecialchars($foto['foto']) ?>" 
                              alt="Current Photo"
                              style="max-width: 600px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-                             onerror="this.src='../public/assets/img/placeholder.jpg'">
+                             onerror="this.onerror=null;this.src='../public/assets/img/placeholder.jpg'">
                     </div>
                 <?php endif; ?>
                 

@@ -28,7 +28,7 @@ $stmt->execute([$pesanan_id]);
 $pembayaran = $stmt->fetch();
 
 if ($pembayaran) {
-    redirect("pyment-status.php");
+    redirect('payment-status.php');
 }
 ?>
 <!DOCTYPE html>
@@ -45,7 +45,7 @@ if ($pembayaran) {
             <a href="index.php" class="navbar-brand"><?= SITE_NAME ?></a>
             <ul class="navbar-menu">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="pyment-status.php">Pesanan Saya</a></li>
+                <li><a href="payment-status.php">Pesanan Saya</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
@@ -63,7 +63,7 @@ if ($pembayaran) {
                         <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Metode Pembayaran</h3>
                         
                         <div style="display: grid; gap: 1.5rem;">
-                            <a href="pyment-qris.php?id=<?= $pesanan_id ?>" 
+                            <a href="payment-qris.php?id=<?= $pesanan_id ?>" 
                                style="display: block; padding: 2rem; border: 2px solid #e2e8f0; border-radius: 12px; text-align: center; transition: all 0.3s;"
                                onmouseover="this.style.borderColor='var(--primary)'; this.style.background='#f0f9ff';"
                                onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='white';">
@@ -72,7 +72,7 @@ if ($pembayaran) {
                                 <p style="color: var(--gray);">Scan QR Code dengan aplikasi e-wallet Anda</p>
                             </a>
                             
-                            <a href="pyment-transfer.php?id=<?= $pesanan_id ?>" 
+                            <a href="payment-transfer.php?id=<?= $pesanan_id ?>" 
                                style="display: block; padding: 2rem; border: 2px solid #e2e8f0; border-radius: 12px; text-align: center; transition: all 0.3s;"
                                onmouseover="this.style.borderColor='var(--primary)'; this.style.background='#f0f9ff';"
                                onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='white';">
@@ -92,7 +92,7 @@ if ($pembayaran) {
                             <img src="uploads/paket/<?= htmlspecialchars($pesanan['foto']) ?>" 
                                  alt="<?= htmlspecialchars($pesanan['nama_paket']) ?>"
                                  style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;"
-                                 onerror="this.src='assets/img/placeholder.jpg'">
+                                 onerror="this.onerror=null;this.src='assets/img/placeholder.jpg'">
                         </div>
                         
                         <h4><?= htmlspecialchars($pesanan['nama_paket']) ?></h4>

@@ -31,8 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Format foto tidak diizinkan! Gunakan JPG atau PNG.';
             } elseif ($_FILES['foto']['size'] > 5 * 1024 * 1024) {
                 $error = 'Ukuran foto maksimal 5MB!';
+            } elseif (!is_genuine_image($_FILES['foto']['tmp_name'])) {
+                $error = 'File yang diupload bukan gambar yang valid.';
             } else {
-                $foto_name = 'paket_' . time() . '.' . $ext;
+                $foto_name = 'paket_' . time() . '_' . uniqid() . '.' . $ext;
                 $upload_path = UPLOAD_DIR . 'paket/' . $foto_name;
                 
                 if (!is_dir(UPLOAD_DIR . 'paket/')) {
@@ -77,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="paket-list.php">Paket Wisata</a></li>
                 <li><a href="pembayaran-list.php">Pembayaran</a></li>
+                <li><a href="cancelled-order.php">Log Batal</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>

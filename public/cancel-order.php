@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section class="section">
         <div class="container">
-            <a href="pyment-status.php" style="color: var(--primary); margin-bottom: 1rem; display: inline-block;">← Kembali ke Pesanan</a>
+            <a href="payment-status.php" style="color: var(--primary); margin-bottom: 1rem; display: inline-block;">← Kembali ke Pesanan</a>
             
             <h2 class="section-title">🗑️ Batalkan & Hapus Pesanan</h2>
             
