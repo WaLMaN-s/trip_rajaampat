@@ -104,62 +104,62 @@ $status_breakdown = $stmt->fetch();
 
     <section class="section">
         <div class="container">
-            <h2 class="section-title">📊 Dashboard Administrator</h2>
-            
+            <h2 class="section-title">Dashboard Administrator</h2>
+
             <?php show_alert(); ?>
-            
+
             <!-- Statistics Cards -->
-            <div class="card-grid" style="margin-bottom: 3rem;">
-                <div class="card">
-                    <div class="card-body" style="text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">📦</div>
-                        <h3 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem;"><?= $stats['paket'] ?></h3>
-                        <p style="color: var(--gray);">Paket Wisata Aktif</p>
-                        <a href="paket-list.php" style="color: var(--primary); font-size: 0.9rem; margin-top: 0.5rem; display: inline-block;">Kelola Paket →</a>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-blue">📦</div>
+                    <div>
+                        <div class="stat-value"><?= $stats['paket'] ?></div>
+                        <div class="stat-label">Paket Wisata Aktif</div>
+                        <a href="paket-list.php" class="stat-link">Kelola Paket →</a>
                     </div>
                 </div>
-                
-                <div class="card">
-                    <div class="card-body" style="text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">📸</div>
-                        <h3 style="font-size: 2.5rem; color: #8b5cf6; margin-bottom: 0.5rem;"><?= $stats['galeri'] ?></h3>
-                        <p style="color: var(--gray);">Galeri</p>
-                        <a href="galeri-list.php" style="color: #8b5cf6; font-size: 0.9rem; margin-top: 0.5rem; display: inline-block;">Kelola Galeri →</a>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-purple">📸</div>
+                    <div>
+                        <div class="stat-value"><?= $stats['galeri'] ?></div>
+                        <div class="stat-label">Galeri</div>
+                        <a href="galeri-list.php" class="stat-link">Kelola Galeri →</a>
                     </div>
                 </div>
-                
-                <div class="card">
-                    <div class="card-body" style="text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎫</div>
-                        <h3 style="font-size: 2.5rem; color: var(--secondary); margin-bottom: 0.5rem;"><?= $stats['pesanan'] ?></h3>
-                        <p style="color: var(--gray);">Total Pesanan</p>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-teal">🎫</div>
+                    <div>
+                        <div class="stat-value"><?= $stats['pesanan'] ?></div>
+                        <div class="stat-label">Total Pesanan</div>
                     </div>
                 </div>
-                
-                <div class="card">
-                    <div class="card-body" style="text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">⏳</div>
-                        <h3 style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 0.5rem;"><?= $stats['pending'] ?></h3>
-                        <p style="color: var(--gray);">Menunggu Verifikasi</p>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-amber">⏳</div>
+                    <div>
+                        <div class="stat-value"><?= $stats['pending'] ?></div>
+                        <div class="stat-label">Menunggu Verifikasi</div>
                         <?php if ($stats['pending'] > 0): ?>
-                            <a href="pembayaran-list.php" style="color: var(--primary); font-size: 0.9rem;">Lihat Detail →</a>
+                            <a href="pembayaran-list.php" class="stat-link">Lihat Detail →</a>
                         <?php endif; ?>
                     </div>
                 </div>
-                
-                <div class="card">
-                    <div class="card-body" style="text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">💰</div>
-                        <h3 style="font-size: 1.8rem; color: var(--success); margin-bottom: 0.5rem;"><?= rupiah($stats['revenue']) ?></h3>
-                        <p style="color: var(--gray);">Total Pendapatan</p>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-green">💰</div>
+                    <div>
+                        <div class="stat-value stat-value-money"><?= rupiah($stats['revenue']) ?></div>
+                        <div class="stat-label">Total Pendapatan</div>
                     </div>
                 </div>
-                
-                <div class="card">
-                    <div class="card-body" style="text-align: center;">
-                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">👥</div>
-                        <h3 style="font-size: 2.5rem; color: #06b6d4; margin-bottom: 0.5rem;"><?= $stats['users'] ?></h3>
-                        <p style="color: var(--gray);">Total User Terdaftar</p>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon-cyan">👥</div>
+                    <div>
+                        <div class="stat-value"><?= $stats['users'] ?></div>
+                        <div class="stat-label">Total User Terdaftar</div>
                     </div>
                 </div>
             </div>
