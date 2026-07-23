@@ -14,6 +14,11 @@ define('SITE_URL', 'http://localhost/trip_rajaampat/public');
 define('UPLOAD_DIR', __DIR__ . '/../public/uploads/');
 define('UPLOAD_URL', SITE_URL . '/uploads/'); // Perbaikan: Menghilangkan dobel public
 
+// Angka versi aset (CSS/JS) berdasarkan waktu file terakhir diubah, ditempel di URL
+// sebagai ?v=... supaya browser otomatis ambil ulang file baru tiap kali style.css
+// diedit, tanpa nyangkut di versi lama yang ke-cache.
+define('ASSET_VERSION', @filemtime(__DIR__ . '/../public/assets/css/style.css') ?: time());
+
 // Payment Configuration
 define('QRIS_IMAGE', 'qris-rajaampat.png');
 define('BANK_NAME', 'Bank BCA');

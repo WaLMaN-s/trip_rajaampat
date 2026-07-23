@@ -23,7 +23,7 @@ $itinerary = array_filter(array_map('trim', explode('|', $package['itinerary']))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($package['nama_paket']) ?> - <?= SITE_NAME ?></title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= ASSET_VERSION ?>">
 </head>
 <body>
     <!-- Navbar -->

@@ -40,7 +40,7 @@ $total_spent = array_sum(array_column(array_filter($orders, fn($o) => $o['paymen
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail User - Admin <?= SITE_NAME ?></title>
-    <link rel="stylesheet" href="../public/assets/css/style.css">
+    <link rel="stylesheet" href="../public/assets/css/style.css?v=<?= ASSET_VERSION ?>">
 </head>
 <body>
     <?php include __DIR__ . '/partials/sidebar.php'; ?>
