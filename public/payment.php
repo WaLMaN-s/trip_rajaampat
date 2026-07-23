@@ -43,6 +43,7 @@ if ($pembayaran) {
     <nav class="navbar">
         <div class="container">
             <a href="index.php" class="navbar-brand"><?= SITE_NAME ?></a>
+            <button class="navbar-toggle" type="button" aria-label="Buka menu" onclick="document.querySelector('.navbar-menu').classList.toggle('is-open')">☰</button>
             <ul class="navbar-menu">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="payment-status.php">Pesanan Saya</a></li>

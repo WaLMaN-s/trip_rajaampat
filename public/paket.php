@@ -30,6 +30,7 @@ $itinerary = array_filter(array_map('trim', explode('|', $package['itinerary']))
     <nav class="navbar">
         <div class="container">
             <a href="index.php" class="navbar-brand"><?= SITE_NAME ?></a>
+            <button class="navbar-toggle" type="button" aria-label="Buka menu" onclick="document.querySelector('.navbar-menu').classList.toggle('is-open')">☰</button>
             <ul class="navbar-menu">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="paket.php">Paket Wisata</a></li>
