@@ -207,3 +207,34 @@ function is_valid_date($date, $format = 'Y-m-d') {
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) === $date;
 }
+
+// Sinkronkan tabel galeri dengan folder uploads/galeri/: file foto yang ada di folder
+// tapi belum tercatat di database otomatis didaftarkan, supaya foto hasil upload yang
+// datanya gagal tersimpan tetap muncul dan bisa dikelola dari panel admin.
+function sync_galeri_from_folder() {
+    global $pdo;
+    try {
+        $galeriDir = UPLOAD_DIR . 'galeri';
+        if (!is_dir($galeriDir)) {
+            return 0;
+        }
+        $knownFotos = $pdo->query("SELECT foto FROM galeri")->fetchAll(PDO::FETCH_COLUMN);
+        $files = glob($galeriDir . '/*.{jpg,jpeg,png}', GLOB_BRACE) ?: [];
+        $stmt = $pdo->prepare("INSERT INTO galeri (judul, deskripsi, foto, urutan, tampilkan) VALUES (?, '', ?, 0, 1)");
+        $added = 0;
+        foreach ($files as $file) {
+            $name = basename($file);
+            if (in_array($name, $knownFotos, true)) {
+                continue;
+            }
+            $judul = ucwords(str_replace(['-', '_'], ' ', pathinfo($name, PATHINFO_FILENAME)));
+            if ($stmt->execute([$judul, $name])) {
+                $knownFotos[] = $name;
+                $added++;
+            }
+        }
+        return $added;
+    } catch (Exception $e) {
+        return 0;
+    }
+}

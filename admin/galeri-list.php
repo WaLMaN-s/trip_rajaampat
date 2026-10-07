@@ -5,6 +5,10 @@ require_once '../includes/function.php';
 
 require_admin();
 
+// Sinkronkan dengan folder uploads supaya foto yang sudah ter-upload tapi belum
+// tercatat di database ikut tampil di daftar ini dan bisa dikelola (edit/hapus).
+sync_galeri_from_folder();
+
 // Get all gallery photos
 $stmt = $pdo->query("SELECT * FROM galeri ORDER BY urutan ASC, created_at DESC");
 $photos = $stmt->fetchAll();

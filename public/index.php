@@ -6,9 +6,60 @@ require_once '../includes/session.php';
 $stmt = $pdo->query("SELECT * FROM paket_wisata WHERE tersedia = 1 ORDER BY created_at DESC");
 $packages = $stmt->fetchAll();
 
-// Get gallery photos
-$stmt = $pdo->query("SELECT * FROM galeri WHERE tampilkan = 1 ORDER BY urutan ASC, created_at DESC LIMIT 12");
-$gallery = $stmt->fetchAll();
+// Get gallery photos dari database
+try {
+    $stmt = $pdo->query("SELECT * FROM galeri ORDER BY urutan ASC, created_at DESC");
+    $dbGallery = $stmt->fetchAll();
+} catch (PDOException $e) {
+    // Tabel galeri belum ada di database: beranda tetap jalan, galeri diisi dari folder uploads.
+    $dbGallery = [];
+}
+
+// Galeri di beranda otomatis sinkron dengan isi folder uploads/galeri/:
+// - Baris database yang file fotonya tidak ada di folder dilewati (tidak tampil gambar rusak).
+// - File foto di folder yang belum tercatat di database ikut ditampilkan otomatis,
+//   supaya foto hasil upload tidak "hilang" dari website walau datanya belum tersimpan.
+$galeriDir = UPLOAD_DIR . 'galeri';
+$knownFotos = array_column($dbGallery, 'foto');
+
+$gallery = [];
+foreach ($dbGallery as $foto) {
+    if ($foto['tampilkan'] && is_file($galeriDir . '/' . $foto['foto'])) {
+        $gallery[] = $foto;
+    }
+}
+
+if (is_dir($galeriDir)) {
+    $orphanFiles = glob($galeriDir . '/*.{jpg,jpeg,png}', GLOB_BRACE) ?: [];
+    $orphans = [];
+    foreach ($orphanFiles as $file) {
+        $name = basename($file);
+        if (in_array($name, $knownFotos, true)) {
+            continue; // Sudah diatur lewat database (termasuk yang disembunyikan admin)
+        }
+        $orphans[] = [
+            'judul' => ucwords(str_replace(['-', '_'], ' ', pathinfo($name, PATHINFO_FILENAME))),
+            'deskripsi' => '',
+            'foto' => $name,
+            'urutan' => 0,
+            'mtime' => filemtime($file),
+        ];
+    }
+    usort($orphans, function ($a, $b) {
+        return $b['mtime'] <=> $a['mtime'];
+    });
+    foreach ($orphans as $foto) {
+        $gallery[] = [
+            'judul' => $foto['judul'],
+            'deskripsi' => '',
+            'foto' => $foto['foto'],
+            'urutan' => 0,
+        ];
+    }
+}
+
+// Batasi jumlah foto yang tampil supaya beranda tetap ringan
+$gallery = array_slice($gallery, 0, 50);
 ?>
 <!DOCTYPE html>
 <html lang="id">
